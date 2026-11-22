@@ -19,9 +19,8 @@ function preload() {
 function setup() {
     createCanvas(880, 880, WEBGL);
 
-    C = PI * width;   // 周长
+    C = PI * width;
 
-    // 量出每 1 号字的宽度，算出需要几行（至少 9 行）
     textFont(helvetica);
     textSize(100);
     let k = textWidth(t) / 100;
@@ -51,9 +50,9 @@ function makeLabel(bg, fg, fontSize) {
     g.textAlign(LEFT, BASELINE);
 
     let w = g.textWidth(t);
-    let n = floor(C / w);                    // 一圈放几遍
-    let gap = C / n - w;                     // 剩下的空间平均分成间隔
-    let y = rowH - rowH * (1 - ALPHA) / 2;   // 基线：格子底边往上留一点
+    let n = floor(C / w);                    // n times of texts
+    let gap = C / n - w;                     // gap = black space for making the circle full
+    let y = rowH - rowH * (1 - ALPHA) / 2;   
 
     for (let j = 0; j < n; j++) {
         g.text(t, j * (w + gap), y);
