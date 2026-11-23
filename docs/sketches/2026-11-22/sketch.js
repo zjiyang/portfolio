@@ -27,7 +27,7 @@ function setup() {
     input.style('color', 'white');  
     input.style('border', '1px solid black');
     input.size(290);
-    input.position(363, 640); 
+    input.position(0, 0); 
     input.attribute('placeholder', 'Type and press Enter');
 
     input.changed(updateText);
