@@ -3,7 +3,7 @@ let roboto;
 const CAP = 0.711;
 const ALPHA = 0.9;
 
-let text = "Make some noise right now for the voices in your head.";
+let text = "The ears and eyes have minds of their own.";
 let t = text.toUpperCase();
 
 let rowN, rowH, C;
