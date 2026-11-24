@@ -2,7 +2,7 @@
 let tileSize = 30;
 
 function setup() {
-    createCanvas(880, 890);
+    createCanvas(880, 880);
 }
 
 function draw() {
