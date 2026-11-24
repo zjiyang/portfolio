@@ -35,7 +35,7 @@ const sketches = {
 const dates = Object.keys(sketches);
 
 const year = 2026;
-const month = 11;   // 11 月
+const month = 11;
 
 const calendar = document.getElementById('calendar');
 const viewer = document.getElementById('viewer');
@@ -43,16 +43,15 @@ const big = document.getElementById('big');
 const note = document.getElementById('note');
 document.getElementById('title').textContent = `${year} / ${month}`;
 
-// 这个月有几天、1 号是星期几
+
 const daysInMonth = new Date(year, month, 0).getDate();
 const firstWeekday = new Date(year, month - 1, 1).getDay();
 
-// 1 号前面空几格
 for (let i = 0; i < firstWeekday; i++) {
   calendar.appendChild(document.createElement('div'));
 }
 
-// 生成每一天的小方块
+
 for (let d = 1; d <= daysInMonth; d++) {
   const date = `${year}-${String(month).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
   const btn = document.createElement('button');
