@@ -1,0 +1,9 @@
+/* base.css
+   Base styles shared by every page: remove the browser's default margin
+   and set the font for the whole site. Every page links this file first. */
+
+body {
+  margin: 0;
+  padding: 40px;
+  font-family: sans-serif;
+}

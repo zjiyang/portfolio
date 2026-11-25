@@ -1,0 +1,24 @@
+/* nav.css
+   Styles for the top navigation (Works / Sketches).
+   Shared by the Works page and the Sketches page. */
+
+.site-nav {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+  font-size: 14px;
+}
+
+.site-nav a {
+  color: #999;
+  text-decoration: none;
+}
+
+.site-nav a:hover {
+  color: black;
+}
+
+.site-nav a[aria-current="page"] {
+  color: black;
+  font-weight: 600;
+}

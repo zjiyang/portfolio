@@ -1,5 +1,5 @@
-// 每做好一个新 sketch，就在这里加一个日期
-// 方括号里写这一天 references 文件夹里的图片文件名，没有就留空 []
+// When a new sketch is ready, uncomment its date here
+// In the brackets, list the image files in that day's references folder, or leave it empty []
 const sketches = {
     '2026-11-01': [],
     // '2026-11-02': [],
@@ -66,47 +66,47 @@ for (let d = 1; d <= daysInMonth; d++) {
 }
 
 function show(date, btn) {
-  viewer.src = `sketches/${date}/index.html`;
+  viewer.src = `${date}/index.html`;
   document.querySelectorAll('.day').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   showRefs(date);
   showNote(date);
 }
-// iframe 的高度跟着 sketch 页面的内容走
-// 页面里只有画布 → 还是正方形；画布下面加了滑块之类的 → 自动变长
+// The iframe's height follows the content of the sketch page
+// Only a canvas → stays square; a slider under the canvas → grows taller
 let observer = null;
 viewer.addEventListener('load', () => {
   if (observer) observer.disconnect();
   const doc = viewer.contentDocument;
   const body = doc.body;
-  // 画布默认是"行内元素"，下面会多出几像素空隙；改成 block 去掉它
+  // A canvas is an inline element by default, which leaves a small gap below it; make it block to remove the gap
   const style = doc.createElement('style');
   style.textContent = 'canvas { display: block; }';
   doc.head.appendChild(style);
   const fit = () => {
     viewer.style.height = body.scrollHeight + 'px';
   };
-  observer = new ResizeObserver(fit);   // 内容高度一变，就重新量一次
+  observer = new ResizeObserver(fit);   // measure again whenever the content height changes
   observer.observe(body);
   fit();
 });
 
-// 在日历下面显示这一天的文字
-// 文字写在 sketches/日期/note.html 里；没有这个文件就什么都不显示
+// Show this day's note under the calendar
+// The note lives in <date>/note.html; if the file is missing, show nothing
 let currentDate = null;
 function showNote(date) {
   currentDate = date;
   note.innerHTML = '';
-  fetch(`sketches/${date}/note.html`)
+  fetch(`${date}/note.html`)
     .then(res => (res.ok ? res.text() : ''))
     .then(html => {
-      if (date === currentDate) note.innerHTML = html;   // 防止点太快，显示成上一天的文字
+      if (date === currentDate) note.innerHTML = html;   // if you click fast, don't show the previous day's note
     })
     .catch(() => {});
 }
 
-// 在日历下面显示这一天的参考图
-// 有好几张的话，点图片换下一张
+// Show this day's reference images under the calendar
+// If there are several, click the image to see the next one
 function showRefs(date) {
   big.innerHTML = '';
   const files = sketches[date];
@@ -114,19 +114,19 @@ function showRefs(date) {
 
   let n = 0;
   const img = document.createElement('img');
-  img.src = `sketches/${date}/references/${files[n]}`;
+  img.src = `${date}/references/${files[n]}`;
   big.appendChild(img);
 
   if (files.length > 1) {
     img.style.cursor = 'pointer';
     img.onclick = () => {
-      n = (n + 1) % files.length;   // 到最后一张就回到第一张
-      img.src = `sketches/${date}/references/${files[n]}`;
+      n = (n + 1) % files.length;   // after the last one, go back to the first
+      img.src = `${date}/references/${files[n]}`;
     };
   }
 }
 
-// 打开页面时默认显示最新的一个
+// When the page opens, show the latest sketch
 if (dates.length > 0) {
   const latest = dates[dates.length - 1];
   const latestBtn = [...document.querySelectorAll('.has-sketch')].pop();
