@@ -1,7 +1,7 @@
 // 2026-11-15
 
 let faceW, faceH;
-let eyeDistance, eyeY, eyeW, eyeH;
+let eyeDist, eyeY, eyeW, eyeH;
 let noseW, noseH, noseY;
 let mouthW, mouthH, mouthY, mouthMode;
 
@@ -26,8 +26,8 @@ function draw() {
     push();
     translate(width/2, eyeY);
     strokeWeight(10);
-    ellipse(-eyeDistance/2, 0, eyeW, eyeH)
-    ellipse(eyeDistance/2, 0, eyeW, eyeH)
+    ellipse(-eyeDist/2, 0, eyeW, eyeH)
+    ellipse(eyeDist/2, 0, eyeW, eyeH)
     pop();
 
     //nose
@@ -75,7 +75,7 @@ function generate() {
 
     let dy = abs(eyeY - height/2) + eyeH/2;
     let halfW = faceW/2 * sqrt(1 - (dy / (faceH/2)) ** 2);
-    eyeDistance = random(faceW/9, 2 * (halfW - eyeW/2 - 10));
+    eyeDist = random(faceW/9, 2 * (halfW - eyeW/2 - 10));
 
     noseY = eyeY + eyeH/2 + eyeNoseGap;
 
