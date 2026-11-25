@@ -46,8 +46,8 @@ function draw() {
   
     stroke(0);
     strokeWeight(10);
-    // strokeJoin(ROUND);
-    // strokeCap(ROUND);
+    strokeJoin(ROUND);
+    strokeCap(ROUND);
   
     //face
     fill(255);
@@ -122,7 +122,7 @@ function draw() {
       // curve: width opens from 20 to 44
       noFill();
       const w = lerp(eyeW, 44, (close - 0.85) / 0.15);
-      arc(x, y + 8, w, 26, PI, TWO_PI);
+      arc(x, y + 3, w - 6, 26, PI, TWO_PI);
       fill(255);
     }
   }
@@ -139,7 +139,7 @@ function draw() {
   function drawMouth(k) {
     const leftY  = lerp(18, 4, k);     // left corner: from down → almost flat
     const rightY = lerp(18, -22, k);   // right corner: from down → up
-    const midY   = lerp(-30, 34, k);   // middle: from arched up → curved down
+    const midY   = lerp(20, 34, k);   // middle: from arched up → curved down
     const shiftX = lerp(0, 10, k);     // move the whole mouth a little to the right (wink side)
   
     noFill();
