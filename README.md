@@ -1,67 +1,50 @@
-# 4rtWorkPractices
+# Portfolio
 
-A daily creative coding practice: one small p5.js sketch a day, collected on a calendar.
+My portfolio of interactive and generative work, made with code in p5.js.
 
-**Live site:** https://zjiyang.github.io/4rtWorkPractices/
-
-Pick a day on the calendar to run that day's sketch. Some days have a short note below the calendar, such as the sketch's title or how to interact with it. Days that have reference images show them below that; when a day has more than one, click the image to see the next.
+**Live site:** https://zjiyang.github.io/portfolio/
 
 ## About
 
-I came to computer science from film production. This site is where I keep a daily practice: write a small sketch, run it, change a number, and watch what happens on screen.
+I came to computer science from film production. Here I make visual work with code: some pieces are small 2D studies with a grid, a wave or an orbit, others are 3D scenes or pieces that visitors can change with the mouse or by typing. Many ideas start from [Tim Rodenbröker](https://timrodenbroeker.de/)'s creative coding tutorials, which I build again in p5.js and take further.
 
-I feel lucky to write these sketches by hand, without AI. In a time when so much code can be generated, I want to keep one place where I simply enjoy writing code and seeing how small changes turn into visual ones. That joy of making something every day feels rare, and I'd like to hold on to it.
+## Artist Statement
 
-As I learn, many ideas start from [Tim Rodenbröker](https://timrodenbroeker.de/)'s creative coding work and tutorials. I study a technique from one of his Processing tutorials and bring it to life again, with my own hands, in p5.js. The code may be the same, but a visual work lives differently in each person who makes it: the experience of making it is mine, and so is what I go on to build from it. Each day is a small experiment: a grid, a wave, an orbit, a pattern built from simple shapes and rules.
+Every few days I start a new sketch: write it, run it, change a number, and watch what happens on screen. These sketches started as practice, so there is no single theme yet. I find it while making, in the small details I choose to change. As a theme takes shape, I bring it together in finished pieces under Works.
 
-This is still the very beginning. I don't know yet where it will go. For now, it's a way to make sure there is always a chance to create something each day.
+I made this site to keep my creativity going, and to share what I make. For me, making visual work is what keeps the joy of writing code alive. That joy feels rare, and I'd like to hold on to it. I care about what an image tells people, and how a small change makes them feel. That is where a single line of code comes alive for me.
+
+What I want to see is often very subtle. To get there, I need to understand what each line of code really does. Only then can I change the small details that matter to me.
+
+## How the site is designed
+
+- **Two sections.** **Works** is the home page, for finished pieces. **Sketches** is where ongoing studies live, collected on a calendar. Over time, the strongest sketches grow into finished works.
+- **One data file drives the calendar.** `calendar.js` lists which days have a sketch and which reference images go with it. The calendar is built from that list, so adding a day means adding one line.
+- **Each piece runs in its own iframe.** One sketch can't break another or the rest of the page. The iframe grows to fit its content, so a sketch with controls under the canvas still shows in full.
+- **Notes load only when needed.** A day's short note is fetched when you open that day. If you click through days quickly, an older note can't replace the newer one.
+- **No build step.** Plain HTML, CSS and JavaScript, with shared style and script files across pages.
+- **Every change goes through a pull request.** Each new sketch is made on its own branch and merged into `main`, and GitHub Pages deploys it from the `docs/` folder.
 
 ## Built with
 
-- [p5.js](https://p5js.org/) for the sketches
-- HTML, CSS and plain JavaScript for the site, with no build step
-- GitHub Pages for hosting, published from the `docs/` folder
+p5.js (including WebGL for 3D) · HTML · CSS · JavaScript · GitHub Pages
 
 ## Project structure
 
 ```
 docs/
-├── index.html            the page: sketch viewer on the left, calendar on the right
-├── calendar.js           builds the calendar and lists which days have sketches
+├── index.html          Works (home page)
+├── css/                shared styles
+├── js/calendar.js      sketch list and calendar
 └── sketches/
-    └── 2026-11-10/
-        ├── index.html    loads p5.js and the sketch
-        ├── sketch.js     the day's sketch
-        ├── note.html     optional: a short note shown under the calendar
-        └── references/   reference images for that day
+    ├── index.html      Sketches: viewer and calendar
+    └── 2026-11-10/     one folder per day: sketch.js, optional note and reference images
 ```
 
-Each sketch runs inside an iframe, so one sketch can't break another or the rest of the page.
+## What's next
 
-## Run it locally
-
-The page loads sketches and images from local files, which browsers block when you open the HTML file directly. Serve the folder instead:
-
-- In VS Code, install the **Live Server** extension, right-click `docs/index.html` and choose **Open with Live Server**, or
-- Run `python3 -m http.server` inside `docs/` and open http://localhost:8000
-
-## Adding a day
-
-1. Create a branch from `main`, e.g. `sketch/2026-11-15`
-2. Write the sketch in `docs/sketches/2026-11-15/sketch.js` and put any reference images in its `references/` folder
-3. Optionally, add a `note.html` in the same folder. It's a small piece of HTML (a title, a line about how to interact) and is styled inline, e.g. `<p style="font-size: 12px;">`. No other setup is needed: the page shows the note if the file is there and shows nothing if it isn't
-4. In `docs/calendar.js`, uncomment that date and list its reference images, e.g. `'2026-11-15': ['still-01.jpg'],`
-5. Check it with Live Server, then commit, open a pull request and merge into `main`
-
-`main` is what's live. GitHub Pages redeploys a minute or two after each merge.
-
-## Ideas for later
-
-Nothing here is fixed, but some directions I'm thinking about:
-
-- Move the sketch list out of `calendar.js` into a `sketches.json` data file
-- Replace the per-day `index.html` copies with one shared viewer page
-- Grow the site into a full portfolio with my films and photographs, rebuilt as a React app
+- Fill the Works page with finished pieces grown from the strongest sketches
+- Rebuild the site as a React app
 
 ## Author
 
