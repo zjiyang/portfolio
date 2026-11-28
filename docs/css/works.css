@@ -1,0 +1,192 @@
+/* works.css
+   Styles for the Works page: the piece fills the whole screen,
+   and the nav, the input box and the caption float on top of it. */
+
+/* no scrollbars: the page is exactly one screen */
+.works-page {
+  overflow: hidden;
+}
+
+/* ---------- The piece: the whole screen, behind everything ---------- */
+
+.stage {
+  position: fixed;
+  inset: 0;                    /* top, right, bottom and left all 0 = full screen */
+}
+
+.stage canvas {
+  display: block;
+}
+
+/* ---------- Things on top of the piece ----------
+   mix-blend-mode: difference flips the color under it:
+   white text shows black on white stripes and white on black stripes,
+   so it can always be read on the moving text */
+
+.works-page .site-nav {
+  position: fixed;
+  top: 32px;
+  left: 40px;
+  z-index: 1;                  /* above the piece */
+  margin: 0;
+  mix-blend-mode: difference;
+}
+
+.works-page .site-nav a {
+  color: #888;
+}
+
+.works-page .site-nav a:hover,
+.works-page .site-nav a[aria-current] {
+  color: white;
+}
+
+.caption {
+  position: fixed;
+  right: 40px;
+  bottom: 32px;
+  z-index: 1;
+  margin: 0;
+  font-size: 13px;
+  color: white;
+  mix-blend-mode: difference;
+}
+
+.caption a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Record button: top right ----------
+   Two layers with the same content sit exactly on top of each other:
+   - .record-text:   the words, flipping black/white like the nav
+   - .record-button: the red dot (always red) and the real button you click
+   One layer can't do both, because the flipping would also turn the red dot cyan. */
+
+.record {
+  position: fixed;
+  top: 32px;
+  right: 40px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1;
+  white-space: pre;              /* keep the two spaces in "00:12  Stop" */
+}
+
+.record-text {
+  color: white;
+  mix-blend-mode: difference;
+  pointer-events: none;          /* clicks go through to the button on top */
+}
+
+.record-text .rec-dot {
+  visibility: hidden;            /* holds the dot's space; the real dot is on the button */
+}
+
+.record-button {
+  color: transparent;            /* holds the words' space; the words show from the layer below */
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.rec-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f33;
+}
+
+/* while recording, the dot blinks */
+.record-button.is-recording .rec-dot {
+  animation: rec-blink 1s steps(1) infinite;
+}
+
+@keyframes rec-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* people who turned off motion on their computer get a steady dot */
+@media (prefers-reduced-motion: reduce) {
+  .record-button.is-recording .rec-dot {
+    animation: none;
+  }
+}
+
+/* ---------- Dots: one per work, to switch between them ---------- */
+
+.work-dots {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  z-index: 1;
+  display: flex;
+  gap: 16px;
+  transform: translateX(-50%);   /* move left by half its own width, so it sits in the middle */
+  mix-blend-mode: difference;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 1px solid white;
+  border-radius: 50%;            /* a square with fully round corners = a circle */
+  background: transparent;
+  cursor: pointer;
+}
+
+.dot:hover,
+.dot[aria-current] {
+  background: white;             /* the dot of the work you are looking at is filled */
+}
+
+/* ---------- Ticker's input box (the piece makes it, the page styles it) ---------- */
+
+.voice-input {
+  position: fixed;
+  left: 40px;
+  bottom: 32px;
+  z-index: 1;
+  width: min(320px, calc(100vw - 80px));
+  padding: 8px 12px;
+  font: inherit;
+  font-size: 14px;
+  color: white;
+  background: black;
+  border: 1px solid white;
+  border-radius: 0;
+}
+
+.voice-input::placeholder {
+  color: #999;
+}
+
+/* On a narrow screen: input at the bottom, caption above it,
+   dots at the top right, and the record button under the dots */
+@media (max-width: 700px) {
+  .caption {
+    left: 40px;
+    right: auto;
+    bottom: 80px;
+  }
+
+  .work-dots {
+    top: 32px;
+    right: 40px;
+    bottom: auto;
+    left: auto;
+    transform: none;
+  }
+
+  .record {
+    top: 64px;
+  }
+}

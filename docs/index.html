@@ -6,15 +6,38 @@
   <title>Works</title>
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/works.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
 </head>
-<body>
+<body class="works-page">
   <nav class="site-nav">
     <a href="./" aria-current="page">Works</a>
     <a href="sketches/">Sketches</a>
+    <a href="films/">Films</a>
+    <a href="about/">About</a>
   </nav>
 
   <main>
-    <p>Coming soon.</p>
+    <!-- The stage: one work fills the whole screen, behind everything else -->
+    <div class="stage" id="stage"></div>
+
+    <!-- One dot per work; js/works.js makes the buttons -->
+    <div class="work-dots" id="work-dots" role="group" aria-label="Choose a work"></div>
+
+    <p class="caption" id="caption"></p>
+
+    <!-- Record the work on screen to a video; js/works.js makes it work.
+         Two layers with the same content, one exactly on top of the other:
+         - record-text: the words, flipping black/white like the nav (can't be clicked)
+         - record-button: the red dot, always red, and the real button you click -->
+    <div class="record record-text" aria-hidden="true">
+      <span class="rec-dot"></span><span class="rec-label">Rec</span>
+    </div>
+    <button class="record record-button" id="record" type="button" aria-label="Record a video of this work">
+      <span class="rec-dot"></span><span class="rec-label">Rec</span>
+    </button>
   </main>
+
+  <script type="module" src="js/works.js"></script>
 </body>
 </html>

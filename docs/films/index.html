@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Films</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/nav.css">
+  <link rel="stylesheet" href="../css/films.css">
+</head>
+<body class="films-page">
+  <nav class="site-nav">
+    <a href="../">Works</a>
+    <a href="../sketches/">Sketches</a>
+    <a href="./" aria-current="page">Films</a>
+    <a href="../about/">About</a>
+  </nav>
+
+  <main class="films">
+    <!-- One film at a time, in the middle of the screen. js/films.js fills it in. -->
+    <figure class="film">
+      <div class="film-video">
+        <iframe id="film-player"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+      <figcaption id="film-title"></figcaption>
+    </figure>
+  </main>
+
+  <!-- One dot per film; js/films.js makes the buttons -->
+  <div class="film-dots" id="film-dots" role="group" aria-label="Choose a film"></div>
+
+  <p class="more">More on <a href="https://vimeo.com/yidingya">Vimeo</a></p>
+
+  <script type="module" src="../js/films.js"></script>
+</body>
+</html>
