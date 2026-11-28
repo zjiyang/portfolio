@@ -55,7 +55,7 @@
 .film-dots {
   position: fixed;
   left: 50%;
-  bottom: 32px;
+  bottom: 40px;
   display: flex;
   gap: 16px;
   transform: translateX(-50%);   /* move left by half its own width, so it sits in the middle */
@@ -81,7 +81,7 @@
 .more {
   position: fixed;
   right: 40px;
-  bottom: 32px;
+  bottom: 40px;
   margin: 0;
   font-size: 13px;
   color: #777;
