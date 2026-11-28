@@ -7,7 +7,7 @@
 // When the crowd is full, it waits for the visitor. Each click on a face starts a wave from that face:
 //   shocked (mouth an O, eyes wide, a little jump) → smiling (smiling eyes) → shocked → smiling → ...
 // The wave spreads out, nearest faces first.
-// After MAX_CLICKS clicks the faces are left alone, and a message appears in the middle of the screen.
+// After MAX_CLICKS waves the faces are left alone: one more click shows a message in the middle instead.
 //
 // Written in p5 instance mode: every p5 function starts with "p."
 
@@ -15,6 +15,8 @@
 const FACE_PX = 100;     // how big an average face is on screen, in pixels (the same on any window)
 const AVG_FACE = 620;    // the average face width / height in the 880 design (faces are 489 to 800)
 const GAP_PX = 3;        // the smallest space between two faces, in screen pixels
+const LINE_BOOST = 1.8;  // lines are this many times thicker than the shrunk 11-15 drawing,
+                         // because thin lines look too light when a face is this small
 const EDGE_PX = 8;       // the space between the crowd and the window's edges, in pixels
 
 // ---------- Placing a face ----------
@@ -33,7 +35,7 @@ const POP_FROM = 0.85;   // the face starts at 85% of its size
 const POP_OVER = 0.6;    // how far it goes past full size before settling (0 = not at all)
 
 // ---------- Clicks ----------
-const MAX_CLICKS = 6;    // after this many waves, the faces are left alone
+const MAX_CLICKS = 10;   // this many waves; the next click shows the message instead
 const MESSAGE = 'This crowd has had enough.';   // shown when the clicks are used up (reload for a new crowd)
 
 // ---------- The waves (in seconds) ----------
@@ -119,12 +121,7 @@ export default function faces(p) {
 
     if (stage === 'wave' && waveDone) {
       nextMood = nextMood === 'shocked' ? 'smile' : 'shocked';   // take turns
-      if (clicks >= MAX_CLICKS) {
-        stage = 'rest';
-        showMessage();
-      } else {
-        stage = 'waiting';
-      }
+      stage = 'waiting';
     }
     if (stage === 'growing' && full && !popping) {
       stage = 'waiting';
@@ -211,12 +208,20 @@ export default function faces(p) {
   // onClick
   // Input: nothing (uses where the mouse is)
   // Returns: nothing
-  // What it does: if a face was clicked while waiting, starts a wave from that face
+  // What it does: if a face was clicked while waiting, starts a wave from that face.
+  //   After MAX_CLICKS waves, the next click starts no wave: it shows the message instead.
   // =====================================================
   function onClick() {
     if (stage !== 'waiting') return;
     const clicked = faceAt(p.mouseX, p.mouseY);
     if (!clicked) return;
+
+    if (clicks >= MAX_CLICKS) {
+      stage = 'rest';
+      p.cursor(p.ARROW);
+      showMessage();
+      return;
+    }
 
     clicks += 1;
     startWave(clicked, nextMood);
@@ -387,7 +392,7 @@ function radiusAt(a, b, angle) {
 
 // half width and half height of a face's outline, plus half the outline's thickness
 function halfSize(face) {
-  return { a: face.faceW / 2 + 5, b: face.faceH / 2 + 5 };
+  return { a: face.faceW / 2 + 5 * LINE_BOOST, b: face.faceH / 2 + 5 * LINE_BOOST };
 }
 
 
@@ -525,7 +530,7 @@ function drawFace(p, f, mood = 'calm') {
 
   // face
   p.push();
-  p.strokeWeight(10);
+  p.strokeWeight(10 * LINE_BOOST);
   p.translate(SIZE / 2, SIZE / 2);
   p.ellipse(0, 0, f.faceW, f.faceH);
   p.pop();
@@ -533,7 +538,7 @@ function drawFace(p, f, mood = 'calm') {
   // eyes
   p.push();
   p.translate(SIZE / 2, f.eyeY);
-  p.strokeWeight(10);
+  p.strokeWeight(10 * LINE_BOOST);
   [-f.eyeDist / 2, f.eyeDist / 2].forEach((x) => {
     if (mood === 'shocked') {
       p.ellipse(x, 0, f.eyeW * 1.15, f.eyeH * 1.4);             // wider and much taller
@@ -552,7 +557,7 @@ function drawFace(p, f, mood = 'calm') {
   p.push();
   p.fill(0);
   p.translate(SIZE / 2, f.noseY);
-  p.strokeWeight(3);
+  p.strokeWeight(3 * LINE_BOOST);
   p.strokeJoin(p.ROUND);
   p.triangle(0, 0, -f.noseW, f.noseH, 0, f.noseH);
   p.pop();
@@ -560,7 +565,7 @@ function drawFace(p, f, mood = 'calm') {
   // mouth
   p.push();
   p.translate(SIZE / 2, f.mouthY);
-  p.strokeWeight(10);
+  p.strokeWeight(10 * LINE_BOOST);
   if (mood === 'shocked') {
     const o = Math.min(Math.max(f.mouthW * 0.35, 24), 60);      // the O's width: between 24 and 60
     p.ellipse(0, 0, o, o * 1.25);                               // a little taller than wide
