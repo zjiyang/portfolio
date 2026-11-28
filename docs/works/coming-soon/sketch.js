@@ -5,9 +5,10 @@ export default function comingSoon(p) {
 
   p.setup = () => {
     p.createCanvas(p.windowWidth, p.windowHeight);
-    p.textFont('sans-serif');
+    p.textFont('Inter, sans-serif');
     p.textAlign(p.CENTER, p.CENTER);
     p.noLoop();                         // nothing moves, so draw only once
+    document.fonts.ready.then(() => p.redraw());   // draw again once Inter has loaded
   };
 
   p.windowResized = () => {

@@ -87,7 +87,6 @@
   color: #777;
 }
 
-.more a {
-  color: inherit;
-  text-underline-offset: 3px;
+.more a:hover {
+  opacity: 0.6;                /* no underline (see base.css); fades a little under the mouse */
 }

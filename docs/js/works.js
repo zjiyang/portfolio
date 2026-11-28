@@ -6,6 +6,7 @@
 // That is the only thing this file needs to know about a work.
 
 import ticker from '../works/ticker/sketch.js';
+import faces from '../works/faces/sketch.js';
 import comingSoon from '../works/coming-soon/sketch.js';
 import { createRecorder } from './lib/recorder.js';
 
@@ -13,11 +14,17 @@ import { createRecorder } from './lib/recorder.js';
 // ---------- The list of works, in order: one dot each ----------
 // To add a work: make works/<name>/sketch.js, import it above,
 // and add it to this list. Keep "Coming soon" last.
+// grownFrom: the days of the sketches the work grew from; each one links to that day.
 const WORKS = [
   {
     title: 'Ticker',
     sketch: ticker,
-    grownFrom: '2026-11-19, 11-21, 11-22',
+    grownFrom: ['2026-11-19', '2026-11-21', '2026-11-22'],
+  },
+  {
+    title: 'Faces',
+    sketch: faces,
+    grownFrom: ['2026-11-15'],
   },
   {
     title: 'Coming soon',
@@ -69,7 +76,8 @@ function show(i) {
 // Input: work = one item of WORKS
 // Returns: nothing
 // What it does: writes "Title · grown from Sketches …" in the corner,
-//   or hides the caption when the work has no grownFrom
+//   where each date links to that day on the Sketches page.
+//   Hides the caption when the work has no grownFrom
 // =====================================================
 function updateCaption(work) {
   caption.textContent = '';
@@ -82,11 +90,15 @@ function updateCaption(work) {
   const title = document.createElement('b');
   title.textContent = work.title;
 
-  const link = document.createElement('a');
-  link.href = 'sketches/';
-  link.textContent = 'Sketches';
+  caption.append(title, ' · grown from sketches ');
 
-  caption.append(title, ' · grown from ', link, ' ' + work.grownFrom);
+  work.grownFrom.forEach((date, i) => {
+    if (i > 0) caption.append(', ');
+    const link = document.createElement('a');
+    link.href = `sketches/#${date}`;          // opens the Sketches page on that day
+    link.textContent = date.slice(5);           // "2026-11-19" → "11-19"
+    caption.append(link);
+  });
 }
 
 
@@ -122,20 +134,26 @@ function clock(ms) {
   return `${mm}:${ss}`;
 }
 
+const IDLE_LABEL = 'Record video';
+let labelTimeout = null;   // brings the label back to IDLE_LABEL after "Saved" or "Can't record here"
+
 // =====================================================
 // updateRecordButton
 // Input: state = "recording", "stopped" or "failed"
 // Returns: nothing
 // What it does:
-//   recording → the dot blinks and the label shows "00:12  Stop", counting up
-//   stopped   → "Rec"
-//   failed    → "Can't record here" for 3 seconds, then "Rec"
+//   recording → a blinking red dot and "00:12  Stop", counting up
+//               (the red dot only shows while recording, so no one thinks the site is always recording)
+//   stopped   → "Saved" for 2 seconds (the video has downloaded), then "Record video"
+//   failed    → "Can't record here" for 3 seconds, then "Record video"
 // =====================================================
 function updateRecordButton(state) {
   const on = state === 'recording';
   recordLayers.forEach((layer) => layer.classList.toggle('is-recording', on));
 
   clearInterval(timer);
+  clearTimeout(labelTimeout);
+
   if (on) {
     recordStart = Date.now();
     const tick = () => setRecordLabel(`${clock(Date.now() - recordStart)}  Stop`);
@@ -143,9 +161,10 @@ function updateRecordButton(state) {
     timer = setInterval(tick, 250);
   } else if (state === 'failed') {
     setRecordLabel("Can't record here");
-    setTimeout(() => setRecordLabel('Rec'), 3000);
+    labelTimeout = setTimeout(() => setRecordLabel(IDLE_LABEL), 3000);
   } else {
-    setRecordLabel('Rec');
+    setRecordLabel('Saved');
+    labelTimeout = setTimeout(() => setRecordLabel(IDLE_LABEL), 2000);
   }
 }
 

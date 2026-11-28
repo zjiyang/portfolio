@@ -57,6 +57,7 @@ for (let d = 1; d <= daysInMonth; d++) {
   const btn = document.createElement('button');
   btn.textContent = d;
   btn.className = 'day';
+  btn.dataset.date = date;        // so a day's button can be found by its date
 
   if (dates.includes(date)) {
     btn.classList.add('has-sketch');
@@ -66,6 +67,7 @@ for (let d = 1; d <= daysInMonth; d++) {
 }
 
 function show(date, btn) {
+  history.replaceState(null, '', `#${date}`);   // the address ends with #2026-11-19, so a day can be linked to
   viewer.src = `${date}/index.html`;
   document.querySelectorAll('.day').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -126,9 +128,12 @@ function showRefs(date) {
   }
 }
 
-// When the page opens, show the latest sketch
+// When the page opens:
+// if the address ends with a day that has a sketch (e.g. sketches/#2026-11-19), show that day;
+// otherwise show the latest sketch
 if (dates.length > 0) {
-  const latest = dates[dates.length - 1];
-  const latestBtn = [...document.querySelectorAll('.has-sketch')].pop();
-  show(latest, latestBtn);
+  const asked = location.hash.slice(1);         // "#2026-11-19" → "2026-11-19"
+  const date = dates.includes(asked) ? asked : dates[dates.length - 1];
+  const btn = document.querySelector(`.day[data-date="${date}"]`);
+  show(date, btn);
 }
