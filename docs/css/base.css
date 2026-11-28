@@ -3,13 +3,21 @@
    and set the font for the whole site. Every page links this file first. */
 
 /* Inter, from Google Fonts: 400 regular, 500 medium, 600 semibold, 700 bold.
+   Only the About text uses it (see about.css); the rest of the site uses the browser's sans-serif.
    @import must be the first rule in the file. */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 body {
   margin: 0;
   padding: 40px;
-  font-family: 'Inter', sans-serif;   /* if Inter can't load, use the browser's sans-serif */
+  font-family: sans-serif;            /* the browser's sans-serif (Helvetica on a Mac) */
+}
+
+/* Buttons and input boxes don't take the page's font by default (an old browser rule);
+   make them use the same font as everything else */
+button,
+input {
+  font: inherit;
 }
 
 /* Links everywhere: the same color as the text around them, no underline */

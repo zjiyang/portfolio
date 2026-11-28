@@ -9,6 +9,7 @@
    13px (small) → 16px (body) → 20px (h2) → 40px (h1, a big jump on purpose) */
 
 .about {
+  font-family: 'Inter', sans-serif;   /* the About text uses Inter; the nav keeps the site font */
   display: grid;
   grid-template-columns: 160px minmax(0, 62ch);   /* left: titles, right: text */
   column-gap: 40px;
