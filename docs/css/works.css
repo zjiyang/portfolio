@@ -19,13 +19,15 @@
 }
 
 /* ---------- Things on top of the piece ----------
+   They sit 40px from the window's edges: the same as the page padding on the other pages,
+   so the nav is in exactly the same place on every page.
    mix-blend-mode: difference flips the color under it:
    white text shows black on white stripes and white on black stripes,
    so it can always be read on the moving text */
 
 .works-page .site-nav {
   position: fixed;
-  top: 32px;
+  top: 40px;
   left: 40px;
   z-index: 1;                  /* above the piece */
   margin: 0;
@@ -44,7 +46,7 @@
 .caption {
   position: fixed;
   right: 40px;
-  bottom: 32px;
+  bottom: 40px;
   z-index: 1;
   margin: 0;
   font-size: 13px;
@@ -64,7 +66,7 @@
 
 .record {
   position: fixed;
-  top: 32px;
+  top: 40px;
   right: 40px;
   z-index: 1;
   display: flex;
@@ -129,7 +131,7 @@
 .work-dots {
   position: fixed;
   left: 50%;
-  bottom: 32px;
+  bottom: 40px;
   z-index: 1;
   display: flex;
   gap: 16px;
@@ -157,7 +159,7 @@
 .voice-input {
   position: fixed;
   left: 40px;
-  bottom: 32px;
+  bottom: 40px;
   z-index: 1;
   width: min(320px, calc(100vw - 80px));
   padding: 8px 12px;
@@ -179,11 +181,11 @@
   .caption {
     left: 40px;
     right: auto;
-    bottom: 80px;
+    bottom: 88px;
   }
 
   .work-dots {
-    top: 32px;
+    top: 40px;
     right: 40px;
     bottom: auto;
     left: auto;
@@ -191,7 +193,7 @@
   }
 
   .record {
-    top: 64px;
+    top: 72px;
   }
 }
 
