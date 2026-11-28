@@ -1,0 +1,99 @@
+/* about.css
+   Styles for the About page, in a minimal Swiss style:
+   - one sans-serif font, hierarchy from size, weight and space only
+   - a two-column grid: section titles on the left, text on the right
+   - text left-aligned, never centered */
+
+/* ---------- Type scale ----------
+   Each size is about 1.25 times the one below it:
+   13px (small) → 16px (body) → 20px (h2) → 40px (h1, a big jump on purpose) */
+
+.about {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 62ch);   /* left: titles, right: text */
+  column-gap: 40px;
+  color: #111;                 /* near-black: softer than pure black on white */
+  font-size: 16px;
+  line-height: 1.7;            /* body text: about 1.5 to 1.7 times the font size */
+}
+
+/* ---------- Name: the one big title ---------- */
+
+.about h1 {
+  grid-column: 1 / -1;         /* spans both columns */
+  margin: 0 0 48px;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;            /* big titles: tight line height */
+  letter-spacing: -0.02em;     /* big titles: slightly tighter letters */
+}
+
+/* ---------- Section titles sit in the left column ---------- */
+
+.about h2 {
+  grid-column: 1;
+  margin: 0;
+  padding-top: 3px;            /* line up with the first line of text on the right */
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+/* ---------- Text sits in the right column ---------- */
+
+.about p {
+  grid-column: 2;
+  margin: 0 0 16px;
+}
+
+/* more space before each new section than inside it */
+.about p:has(+ h2) {
+  margin-bottom: 56px;
+}
+
+/* ---------- Links: same color as text, thin underline ---------- */
+
+.about a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.about a:hover {
+  text-decoration-color: transparent;   /* the underline fades away on hover */
+}
+
+/* ---------- Find me: "Films  vimeo.com/…" lines, labels lined up ---------- */
+
+.about .find-me {
+  margin-bottom: 4px;          /* the lines sit close together, like one list */
+}
+
+/* the last line before the next section still gets the big gap */
+.about .find-me:has(+ h2) {
+  margin-bottom: 56px;
+}
+
+.find-label {
+  display: inline-block;
+  width: 4.5em;                /* same width for every label, so the links line up */
+  color: #777;
+}
+
+/* ---------- Narrow screens: one column ---------- */
+
+@media (max-width: 700px) {
+  .about {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about h2,
+  .about p {
+    grid-column: 1;
+  }
+
+  .about h2 {
+    margin-bottom: 4px;
+  }
+}

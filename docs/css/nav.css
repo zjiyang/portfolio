@@ -1,6 +1,6 @@
 /* nav.css
-   Styles for the top navigation (Works / Sketches).
-   Shared by the Works page and the Sketches page. */
+   Styles for the top navigation (Works / Sketches / Films / About).
+   Shared by every page. */
 
 .site-nav {
   display: flex;
@@ -18,7 +18,8 @@
   color: black;
 }
 
-.site-nav a[aria-current="page"] {
+/* the link of the page you are on (aria-current="page") */
+.site-nav a[aria-current] {
   color: black;
   font-weight: 600;
 }
